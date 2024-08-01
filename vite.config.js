@@ -1,19 +1,26 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { format, resolve } from 'path'
+import { resolve } from 'path'
 import josn from './package.json'
+
+// 生成 ts 类型声明文件
+// import dts from 'vite-plugin-dts'
 
 const pkgName = josn.name
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    // dts({ rollupTypes: true }),
+  ],
   build: {
+    sourcemap: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/main.js'),
       name: pkgName,
-      formats: ['es','umd'],
+      formats: ['es', 'umd'],
       // the proper extensions will be added
       fileName: (formatName) => `${pkgName}.${formatName}.js`,
     },
